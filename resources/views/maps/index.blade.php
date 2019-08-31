@@ -23,10 +23,11 @@
 
 
 
+
     <script>
         //set infowindow content
         function setInfo(){
-            var markerInfo = '<button type="button" href="{{  }}" class="btn btn-primary btn-sm">投信去</button>';
+            var markerInfo = '<a class="btn btn-primary" href="{{route('postcard.writecard')}}" role="button">投信去</a>';
 
             return markerInfo;
         }
@@ -68,6 +69,8 @@
                 alert("未允許或遭遇錯誤！");
             }
 
+
+
             $.ajax({
             //url: "https://randomuser.me/api",
             //url: "{{ url('storage/json/scenic_spot.json') }}",
@@ -108,44 +111,12 @@
             }
             });
 
+
+
         } //init_end
-/*
-$(function(){
-  $.ajax({
-  //url: "https://randomuser.me/api",
-  //url: "{{ url('storage/json/scenic_spot.json') }}",
-  //url : "https://gis.taiwan.net.tw/XMLReleaseALL_public/scenic_spot_C_f.json"
-  type: "GET",
-  dataType: "jsonp",
-  cache: false,
-  headers: {
 
-'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-
-},
-
-  success: function(Jdata) {
-    alert("SUCCESS!!!");
-    console.log('success');
-  },
-
-  error: function() {
-    alert("ERROR!!!");
-    console.log(arguments);
-  }
-});
-
-
-})
-
-
-
-
-
-*/
 
         </script>
-
 
 
 

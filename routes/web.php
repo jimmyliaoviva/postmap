@@ -12,9 +12,10 @@ use App\Http\Controllers\MapsController;
 |
 */
 
-Route::get('/', function () {
-    return view('maps.index');
-});
+Route::get('/', [
+    'uses'=>'MapsController@getIndex',
+    'as'=>'maps.index'
+]);
 
 Route::get('/test', function () {
     return view('maps.test');
@@ -27,28 +28,28 @@ Route::get('/storage/json/scenic_spot.json', [
 
 Route::get('/storage/json/test.json', [
     'uses' => 'MapsController@getTest',
-    'as' => 'json.test'    
+    'as' => 'json.test'
     ]);
 
 Route::get('/storage/json/scenic.json', [
     'uses' => 'MapsController@getScenic',
-    'as' => 'json.scenic'    
+    'as' => 'json.scenic'
     ]);
 
 Route::get('/postcard', [
-    'uses' => 'MapsController@postPostcard',
-    'as' => 'postcard.writecard'    
+    'uses' => 'MapsController@getPostcard',
+    'as' => 'postcard.writecard'
     ]);
 
 
 Route::get('storage/{name}', function ($name) {
 
     $path = storage_path($name);
-    
+
     $mime = \File::mimeType($path);
-    
+
     header('Content-type: ' . $mime);
-    
+
     return readfile($path);
-    
+
 })->where('name', '(.*)');
