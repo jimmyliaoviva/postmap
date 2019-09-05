@@ -36,10 +36,26 @@ Route::get('/storage/json/scenic.json', [
     'as' => 'json.scenic'
     ]);
 
-Route::get('/postcard', [
+Route::get('/postcard/{spotName}', [
     'uses' => 'MapsController@getPostcard',
     'as' => 'postcard.writecard'
     ]);
+    /*
+    Route::post('/postcard', [
+        'uses' => 'MapsController@postPostcard',
+        'as' => 'postcard.writecard'
+        ]);
+    */
+        Route::get('/mailbox', [
+        'uses' => 'MapsController@getMailbox',
+        'as' => 'postcard.mailbox'
+        ]);
+
+    Route::get('/mycard', [
+        'uses' => 'MapsController@getMycard',
+        'as' => 'postcard.mycard'
+        ]);
+
 
 
 Route::get('storage/{name}', function ($name) {

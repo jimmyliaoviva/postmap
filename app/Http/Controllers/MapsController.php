@@ -38,9 +38,29 @@ public function getJson(){
 
 }
 //this is the controller to post editing page!
-public function getPostcard(){
+public function getPostcard($spotName){
     $spots = spots::all();
-    return view('postcard.writecard',['spots'=>$spots]);
+    $thisBox = spots::where('Name','=',$spotName)->first();
+    return view('postcard.writecard',['spots'=>$spots, 'thisBox'=>$thisBox]);
+
+}
+/*
+public function postPostcard(Request $request){
+    $spots = spots::all();
+    //$thisBox = spots::where('Name','==',$request->input('spotName'));
+    $thisBox = spots::where('Name','=','秀峰瀑布')->first();
+    return redirect()->route('postcard.writecard',['spots'=>$spots,'thisBox'=>$thisBox]);
+
+}
+*/
+public function getMailbox(){
+    //$spots = spots::all();  this need to be change to database of mail
+    return view('postcard.mailbox');
+
+}
+public function getMycard(){
+    //$spots = spots::all();  this need to be change to database of mail
+    return view('postcard.mycard');
 
 }
 }

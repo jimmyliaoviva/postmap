@@ -22,17 +22,20 @@
     padding-bottom:56.25%;
     height:50%;
     width:50%;
-    position: relative;;
+    position: relative;
 }
+
 #map{
     height: 100%;
+    width: 100%;
+   position: absolute;
 }
     </style>
 
 @endsection
 @section('content' )
 <div class="card w-75  mx-auto">
-        <div class="card-body  " id="map">
+        <div class="card-body " id="map">
 
         </div>
       </div>
@@ -52,14 +55,18 @@
       <label for="exampleFormControlSelect1">選擇郵筒</label>
       <select class="form-control" id="exampleFormControlSelect1">
         @foreach ($spots as $item)
+        @if($item->Name==$thisBox->Name)
+      <option selected="true">{{$item->Name}}</option>
+        @else
       <option>{{$item->Name}}</option>
+        @endif
         @endforeach
       </select>
     </div>
 
     <div class="form-group">
       <label for="exampleFormControlTextarea1">寫下你想說的話</label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" rows="4">{{$thisBox->Name}}</textarea>
     </div>
     <div class="form-group">
             <label for="exampleFormControlFile1">選擇照片</label>
@@ -79,7 +86,12 @@ var map = new google.maps.Map(document.getElementById('map'), {
   zoom: 14, //放大的倍率
   center: latlng //初始化的地圖中心位置
 });
-
+map.setCenter({ lat:{{$thisBox->Py}}, lng: {{$thisBox->Px}} });
+var marker = new google.maps.Marker({
+                position:{lat :{{$thisBox->Py}}, lng: {{$thisBox->Px}}},
+                icon: "{{ url('storage/img/poo.png') }}",
+                map: map
+            });
 if (navigator.geolocation) {
   var watchID = navigator.geolocation.watchPosition(function(position) {
       var pos = {

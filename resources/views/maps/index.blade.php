@@ -16,7 +16,9 @@
 
   </style>
 @endsection
-
+@section('title')
+  Collectter
+@endsection
 @section('content')
 
     <div id="map"></div>
@@ -25,21 +27,26 @@
 
 
     <script>
+
+
         //set infowindow content
-        function setInfo(){
-            var markerInfo = '<a class="btn btn-primary" href="{{route('postcard.writecard')}}" role="button">投信去</a>';
+        function setInfo(data){
+            var spotName = data.Name;
+            var markerInfo = '<a class="btn btn-primary" href="{{route('postcard.writecard',['spotName' => '秀峰瀑布'] )}}"  role="button">投信去</a>' +
+            '<a class="btn btn-primary" href="{{route('postcard.mailbox')}}" role="button">收信去</a>';
 
             return markerInfo;
         }
-        function linkToWebsite(data){
-            var website = '';
-            if (data.Website == ''){
-                return '<a class="btn " href="#" role="button">'+data.Name+'</a>'
+        function linkToWebsite(website,name){
+
+            if (website == ''){
+                return '<a class="btn " href="#" role="button">'+name+'</a>'
             }
             else{
-                return '<a class="btn" target="_blank" href="'+data.Website+'" role="button">' + data.Name+'</a>'
+                return '<a class="btn" target="_blank" href="'+website+'" role="button">' + name+'</a>'
             }
-        }
+        }//end linkToWebsite
+
 
 
         function initMap() {
@@ -49,6 +56,7 @@
                 zoom: 14, //放大的倍率
                 center: latlng //初始化的地圖中心位置
             });
+            
 
             if (navigator.geolocation) {
                 var watchID = navigator.geolocation.watchPosition(function(position) {
@@ -68,9 +76,23 @@
                 // Browser doesn't support Geolocation
                 alert("未允許或遭遇錯誤！");
             }
-
-
-
+            @foreach($spots as $spot)
+            var infowindow = new google.maps.InfoWindow();
+                var marker = new google.maps.Marker({
+                position:{lat :{{$spot->Py}}, lng: {{$spot->Px}}},
+                icon: "{{ url('storage/img/poo.png') }}",
+                map: map
+            });
+                marker.addListener('click', function() {
+                infowindow.setContent(   linkToWebsite('{{$spot->Website}}','{{$spot->Name}}')  +
+                 '</br>' +
+                 '<a class="btn btn-primary" href="{{route('postcard.writecard',['spotName' => $spot->Name] )}}"  role="button">投信去</a>' +
+                 '<a class="btn btn-primary" href="{{route('postcard.mailbox')}}" role="button">收信去</a>'
+                );
+                infowindow.open(map, this);
+            });//end marker listener
+            @endforeach
+/*
             $.ajax({
             //url: "https://randomuser.me/api",
             //url: "{{ url('storage/json/scenic_spot.json') }}",
@@ -94,24 +116,28 @@
                 var infowindow = new google.maps.InfoWindow();
                 var marker = new google.maps.Marker({
                 position: latlnge,
-                icon: "{{ url('storage/poo.png') }}",
+                icon: "{{ url('storage/img/poo.png') }}",
                 map: map
             });
                 marker.addListener('click', function() {
                 infowindow.setContent(   linkToWebsite(Jdata[index])  +
-                 '</br>' +setInfo()
+                 '</br>' +setInfo(Jdata[index])
                 );
                 infowindow.open(map, this);
             });//end marker listener
             }//end for
-            },//end success
+
+
+
+
+},//end success
             error: function() {
             alert("ERROR!!!");
             console.log(arguments);
             }
             });
 
-
+*/
 
         } //init_end
 
