@@ -48,7 +48,7 @@ Route::post('/postcard', [
 ]);
 
 
-Route::get('/mailbox', [
+Route::get('/mailbox/{spotName}', [
     'uses' => 'MapsController@getMailbox',
     'as' => 'postcard.mailbox'
 ]);

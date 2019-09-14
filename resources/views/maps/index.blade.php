@@ -23,20 +23,30 @@
 
     <div id="map"></div>
 
+    <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img src="{{url('storage/img/envelop.png')}}">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
     <script>
-
-
-        //set infowindow content
-        function setInfo(data){
-            var spotName = data.Name;
-            var markerInfo = '<a class="btn btn-primary" href="{{route('postcard.writecard',['spotName' => '秀峰瀑布'] )}}"  role="button">投信去</a>' +
-            '<a class="btn btn-primary" href="{{route('postcard.mailbox')}}" role="button">收信去</a>';
-
-            return markerInfo;
-        }
         function linkToWebsite(website,name){
 
             if (website == ''){
@@ -46,8 +56,6 @@
                 return '<a class="btn" target="_blank" href="'+website+'" role="button">' + name+'</a>'
             }
         }//end linkToWebsite
-
-
 
         function initMap() {
 
@@ -87,57 +95,13 @@
                 infowindow.setContent(   linkToWebsite('{{$spot->Website}}','{{$spot->Name}}')  +
                  '</br>' +
                  '<a class="btn btn-primary" href="{{route('postcard.writecard',['spotName' => $spot->Name] )}}"  role="button">投信去</a>' +
-                 '<a class="btn btn-primary" href="{{route('postcard.mailbox')}}" role="button">收信去</a>'
+                 '<a class="btn btn-primary" href="{{route('postcard.mailbox', ['spotName' => $spot->Name] )}}" role="button">收信去</a>' +'</br>'+
+                 '<!-- Button trigger modal -->' +
+                 '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"> Launch </button>'
                 );
                 infowindow.open(map, this);
             });//end marker listener
             @endforeach
-/*
-            $.ajax({
-            //url: "https://randomuser.me/api",
-            //url: "{{ url('storage/json/scenic_spot.json') }}",
-            //url: "http://localhost/storage/json/scenic.json",
-            url: "{{ url('storage/json/test.json') }}",
-            type: "GET",
-            dataType: "json",
-            cache: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            },
-
-            success: function(Jdata) {
-            //alert("SUCCESS!!!");
-            console.log('success');
-
-            for (let index = 0; index < Jdata.length; index++) {
-                console.log( Jdata[index].Id,index);
-                var latlnge = { lat:  Jdata[index].Py, lng: Jdata[index].Px };
-                console.log(latlnge)
-                var infowindow = new google.maps.InfoWindow();
-                var marker = new google.maps.Marker({
-                position: latlnge,
-                icon: "{{ url('storage/img/poo.png') }}",
-                map: map
-            });
-                marker.addListener('click', function() {
-                infowindow.setContent(   linkToWebsite(Jdata[index])  +
-                 '</br>' +setInfo(Jdata[index])
-                );
-                infowindow.open(map, this);
-            });//end marker listener
-            }//end for
-
-
-
-
-},//end success
-            error: function() {
-            alert("ERROR!!!");
-            console.log(arguments);
-            }
-            });
-
-*/
 
         } //init_end
 

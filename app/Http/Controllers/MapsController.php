@@ -54,9 +54,12 @@ public function postPostcard(Request $request){
     //return redirect()->route('maps.index');
 }
 
-public function getMailbox(){
+public function getMailbox($spotName){
+    $thisSpot = $spotName;
     //$spots = spots::all();  this need to be change to database of mail
-    return view('postcard.mailbox');
+    //$path = "{{ url('storage/app/img/OBuqnigbwXgUBOvqXn46T3cgyPKbLp5neR8RwRtG.png') }}";
+    $path = "http://localhost/storage/app/img/OBuqnigbwXgUBOvqXn46T3cgyPKbLp5neR8RwRtG.png";
+    return view('postcard.mailbox',['spotName'=>$thisSpot,'path'=>$path]);
 
 }
 public function getMycard(){
