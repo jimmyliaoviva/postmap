@@ -68,10 +68,21 @@
       <label for="exampleFormControlTextarea1">寫下你想說的話</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" rows="4">{{$thisBox->Name}}</textarea>
     </div>
-    <div class="form-group">
+    <div class="form-group file-loading">
             <label for="exampleFormControlFile1">選擇照片</label>
-            <input type="file" class="form-control-file" id="exampleFormControlFile1">
-          </div>
+            <input id="input-b1" name="input-b1" type="file" class="file" data-browse-on-zone-click="true">
+            <script>
+                $(function () {
+                    $("#input-b1").fileinput({
+                    uploadUrl: "/file-upload-batch/2",
+                    autoReplace: true,
+                    maxFileCount: 1,
+                    allowedFileExtensions: ["jpg", "png", "gif"]
+                });
+                })
+                </script>
+        </div>
+
   </form>
   <button type="submit" class="btn btn-primary">Submit</button>
 </div>
@@ -89,7 +100,7 @@ var map = new google.maps.Map(document.getElementById('map'), {
 map.setCenter({ lat:{{$thisBox->Py}}, lng: {{$thisBox->Px}} });
 var marker = new google.maps.Marker({
                 position:{lat :{{$thisBox->Py}}, lng: {{$thisBox->Px}}},
-                icon: "{{ url('storage/img/poo.png') }}",
+                icon: "{{ url('storage/img/postbox.png') }}",
                 map: map
             });
 if (navigator.geolocation) {
@@ -110,6 +121,8 @@ if (navigator.geolocation) {
   // Browser doesn't support Geolocation
   alert("未允許或遭遇錯誤！");
 }}
+
+
         </script>
 
 @endsection

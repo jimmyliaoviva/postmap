@@ -56,7 +56,7 @@
                 zoom: 14, //放大的倍率
                 center: latlng //初始化的地圖中心位置
             });
-            
+
 
             if (navigator.geolocation) {
                 var watchID = navigator.geolocation.watchPosition(function(position) {
@@ -80,7 +80,7 @@
             var infowindow = new google.maps.InfoWindow();
                 var marker = new google.maps.Marker({
                 position:{lat :{{$spot->Py}}, lng: {{$spot->Px}}},
-                icon: "{{ url('storage/img/poo.png') }}",
+                icon: "{{ url('storage/img/postbox.png') }}",
                 map: map
             });
                 marker.addListener('click', function() {
