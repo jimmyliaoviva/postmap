@@ -34,6 +34,7 @@
 
 @endsection
 @section('content' )
+<!-- map  -->
 <div class="card w-75  mx-auto">
         <div class="card-body " id="map">
 
@@ -46,7 +47,8 @@
 
 
 
-  <form>
+<form method="POST" action="/postcard" enctype="multipart/form-data">
+        {{ csrf_field() }}
     <div class="form-group">
       <label for="exampleFormControlInput1">Email address</label>
       <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
@@ -82,9 +84,9 @@
                 })
                 </script>
         </div>
-
-  </form>
   <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
 </div>
 
 

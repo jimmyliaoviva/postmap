@@ -44,15 +44,16 @@ public function getPostcard($spotName){
     return view('postcard.writecard',['spots'=>$spots, 'thisBox'=>$thisBox]);
 
 }
-/*
-public function postPostcard(Request $request){
-    $spots = spots::all();
-    //$thisBox = spots::where('Name','==',$request->input('spotName'));
-    $thisBox = spots::where('Name','=','秀峰瀑布')->first();
-    return redirect()->route('postcard.writecard',['spots'=>$spots,'thisBox'=>$thisBox]);
 
+public function postPostcard(Request $request){
+    //var_dump($request->all());
+
+        $path = $request->file('input-b1')->store('img');
+        //var_dump($request->file('input-b1'));
+    return $path;
+    //return redirect()->route('maps.index');
 }
-*/
+
 public function getMailbox(){
     //$spots = spots::all();  this need to be change to database of mail
     return view('postcard.mailbox');
