@@ -9,20 +9,26 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-        <a class="nav-link" href="{{route('maps.index')}}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{route('maps.index')}}">首頁 <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="{{route('postcard.mycard')}}">我的收集</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
+                <span>帳號</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
+              @if(Auth::check())
+              <a class="dropdown-item" href="{{route('user.logout')}}">登出</a>
+              <a class="dropdown-item" href="{{route('postcard.mycard')}}">我的收集</a>
+              @else
+              <a class="dropdown-item" href="{{route('user.signup')}}">註冊</a>
+              <a class="dropdown-item" href="{{route('user.signin')}}">登入</a>
+              @endif
+
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+
           </div>
         </li>
         <li class="nav-item">

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\MapsController;
 use Illuminate\Http\Request;
+//use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,25 +40,65 @@ Route::get('/storage/json/scenic.json', [
     'as' => 'json.scenic'
 ]);
 
-Route::get('/postcard/{spotName}', [
-    'uses' => 'MapsController@getPostcard',
-    'as' => 'postcard.writecard'
-]);
-
-Route::post('/postcard', [
-    'uses' => 'MapsController@postPostcard',
-]);
 
 
-Route::get('/mailbox/{spotName}', [
-    'uses' => 'MapsController@getMailbox',
-    'as' => 'postcard.mailbox'
-]);
+Route::group(['prefix' => 'user'], function () {
+    //the pages only authenticate user can access
+    Route::group(['middleware' => 'auth'], function () {
 
-Route::get('/mycard', [
-    'uses' => 'MapsController@getMycard',
-    'as' => 'postcard.mycard'
-]);
+        Route::get('/postcard/{spotName}', [
+            'uses' => 'MapsController@getPostcard',
+            'as' => 'postcard.writecard'
+        ]);
+
+        Route::post('/postcard', [
+            'uses' => 'MapsController@postPostcard',
+        ]);
+
+        Route::get('/mailbox/{spotName}', [
+            'uses' => 'MapsController@getMailbox',
+            'as' => 'postcard.mailbox'
+        ]);
+
+        Route::get('/mycard', [
+            'uses' => 'MapsController@getMycard',
+            'as' => 'postcard.mycard'
+        ]);
+
+        Route::get('/logout', [
+            'uses'=>'UserController@getLogout',
+            'as'=>'user.logout'
+            ]
+        );
+    });
+    //the pages guest can access
+    Route::group(['middleware' => 'guest'], function () {
+
+    });
+    Route::get('/signup',[
+        'uses'=>'UserController@getSignup',
+        'as'=> 'user.signup'
+    ]);
+
+    Route::post('/signup', [
+        'uses' =>'UserController@postSignup',
+        'as' => 'user.signup'
+    ]);
+
+    Route::get('/signin',[
+        'uses'=> 'UserController@getSignin',
+        'as'=> 'user.signin'
+        //the authencation user cannot sign in (because he is already sign in)
+        ]
+    );
+
+    Route::post('/signin', [
+        'uses'=>'UserController@postSignin',
+        'as'=>'user.signin']
+    );
+
+
+});
 
 
 

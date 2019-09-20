@@ -28,8 +28,8 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
 
 
-          <img src="{{url('storage/img/envelop.png')}}" onclick="receiveMail()">
-
+    <a href="{{route('postcard.mycard')}}" class="btn">  <img src="{{url('storage/img/envelop.png')}}" >
+</a>
 
 
     </div>
@@ -39,7 +39,7 @@
 
     <script>
         function receiveMail(){
-          
+            console.log('hihi');
         }//end receiveMail
 
         function linkToWebsite(website,name){
