@@ -47,15 +47,12 @@
 
 
 
-<form method="POST" action="/postcard" enctype="multipart/form-data">
+<form method="POST" action="/user/postcard" enctype="multipart/form-data">
         {{ csrf_field() }}
-    <div class="form-group">
-      <label for="exampleFormControlInput1">Email address</label>
-      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-    </div>
+
     <div class="form-group">
       <label for="exampleFormControlSelect1">選擇郵筒</label>
-      <select class="form-control" id="exampleFormControlSelect1">
+      <select class="form-control" name ="spotName" id="spotName">
         @foreach ($spots as $item)
         @if($item->Name==$thisBox->Name)
       <option selected="true">{{$item->Name}}</option>
@@ -68,7 +65,7 @@
 
     <div class="form-group">
       <label for="exampleFormControlTextarea1">寫下你想說的話</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" rows="4">{{$thisBox->Name}}</textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" name="content" placeholder="" rows="4"></textarea>
     </div>
     <div class="form-group file-loading">
             <label for="exampleFormControlFile1">選擇照片</label>
@@ -84,7 +81,7 @@
                 })
                 </script>
         </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">寄信</button>
 </form>
 
 </div>

@@ -6,7 +6,7 @@ use App\spots;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use SebastianBergmann\Environment\Console;
-
+use Illuminate\Support\Facades\Auth;
 class MapsController extends Controller
 {
     public function getIndex(){
@@ -48,9 +48,18 @@ public function getPostcard($spotName){
 public function postPostcard(Request $request){
     //var_dump($request->all());
 
-        $path = $request->file('input-b1')->store('img');
+    $path = $request->file('input-b1')->store('img');
+    $path = 'http://localhost/storage/app/'.$path;
+    $writer = Auth::user()->email;
+    $card = \App\Card::create([
+        'spotName'=>$request->input('spotName'),
+        'content'=>$request->input('content'),
+        'imgPath'=>$path,
+        'writer'=>$writer
+    ]);
+    $card->save();
         //var_dump($request->file('input-b1'));
-    return $path;
+    return redirect()->route('postcard.mycard');
     //return redirect()->route('maps.index');
 }
 
