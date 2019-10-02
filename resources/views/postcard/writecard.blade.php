@@ -42,11 +42,6 @@
       </div>
 <div class="card-body card-body-cascade text-center">
 
-
-
-
-
-
 <form method="POST" action="/user/postcard" enctype="multipart/form-data">
         {{ csrf_field() }}
 
@@ -76,7 +71,8 @@
                     uploadUrl: "/file-upload-batch/2",
                     autoReplace: true,
                     maxFileCount: 1,
-                    allowedFileExtensions: ["jpg", "png", "gif"]
+                    allowedFileExtensions: ["jpg", "png", "gif"],
+                    maxFileSize : 8196
                 });
                 })
                 </script>

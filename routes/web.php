@@ -65,6 +65,11 @@ Route::group(['prefix' => 'user'], function () {
             'as' => 'postcard.mycard'
         ]);
 
+        Route::get('/card/{cardId}', [
+            'uses' => 'MapsController@getCard',
+            'as' => 'postcard.card'
+        ]);
+
         Route::get('/logout', [
             'uses'=>'UserController@getLogout',
             'as'=>'user.logout'

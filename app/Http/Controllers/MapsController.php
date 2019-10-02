@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Card;
 use App\spots;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -59,21 +60,50 @@ public function postPostcard(Request $request){
     ]);
     $card->save();
         //var_dump($request->file('input-b1'));
-    return redirect()->route('postcard.mycard');
+    return redirect()->route('maps.index');
     //return redirect()->route('maps.index');
 }
-
+//get card from postbox
 public function getMailbox($spotName){
     $thisSpot = $spotName;
     //$spots = spots::all();  this need to be change to database of mail
     //$path = "{{ url('storage/app/img/OBuqnigbwXgUBOvqXn46T3cgyPKbLp5neR8RwRtG.png') }}";
-    $path = "http://localhost/storage/app/img/OBuqnigbwXgUBOvqXn46T3cgyPKbLp5neR8RwRtG.png";
-    return view('postcard.mailbox',['spotName'=>$thisSpot,'path'=>$path]);
+    //$path = "http://localhost/storage/app/img/OBuqnigbwXgUBOvqXn46T3cgyPKbLp5neR8RwRtG.png";
+    $card = Card::where([
+        ['recieved','=','0'],
+        ['spotName','=',$spotName],
+        ['writer','<>',Auth::user()->email]
+    ])->inRandomOrder()
+    ->first();
 
-}
+        if ($card==null){
+            $card = Card::where('id','=','2')
+            ->first();
+            //return view('postcard.card',['card'=>$card]);
+        }//end if
+        else{
+            $card->recieved = '1';
+            $card->reciever = Auth::user()->email;
+            $card->save();
+        }
+        return view('postcard.card',['card'=>$card]);
+}//end getMailbox
+
 public function getMycard(){
     //$spots = spots::all();  this need to be change to database of mail
-    return view('postcard.mycard');
+    //$cards = Card::where('writer','=',Auth::user()->email);
+    $cards = Card::all();
+    if($cards->count()==0){
+        $cards = Card::where('id','=','2');
+    }//end if
 
-}
+    return view('postcard.mycard',['cards'=>$cards]);
+
+}//end getMycard
+
+public function getCard($cardId){
+    $card = Card::where('id','=',$cardId)->first();
+    return view('postcard.card',['card'=>$card]);
+
+}//end getCard
 }
